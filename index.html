@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>MVVM</title>
+</head>
+<body>
+  <script>
+    var obj = {
+      age: 24,
+      name: 'lisi'
+    }
+    observe(obj);
+    function observe(obj) {
+      if(!obj || typeof obj !== 'object') {
+        return
+      }
+      for (const key in obj) {
+        if (obj.hasOwnProperty(key)) {
+          let val = obj[key];
+          Object.defineProperty(obj, key, {
+            enumerable: true,
+            configurable: true,
+            get() {
+              console.log('get', this)
+              return val
+            },
+            set(newVal) {
+              console.log('set newVal', newVal)
+              val = newVal
+            }
+          })
+          if(typeof val === 'object') {
+            observe(val)
+          }
+        }
+      }
+    }
+  </script>
+</body>
+</html>
