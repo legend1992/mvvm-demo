@@ -1,14 +1,18 @@
 class Subject {
   constructor() {
-    this.observes = []
+    this.observers = []
   }
-  subscribe(observe) {
-    this.observes.push(observe)
+  addObserver(observe) {
+    this.observers.push(observe)
   }
-  unSubscribe(observe) {
-    if(this.observes.indexOf(observe) > -1) {
-      this.observes.splice(index,1)
+  removeObserver(observe) {
+    if(this.observers.indexOf(observe) > -1) {
+      this.observers.splice(index,1)
     }
   }
+  notify(value) {
+    this.observers.forEach(function(observer){
+      observer.update(value)
+    })
+  }
 }
-export default Subject
