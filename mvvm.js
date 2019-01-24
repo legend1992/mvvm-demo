@@ -6,6 +6,22 @@ class Mvvm {
   }
   init(options) {
     this.$el = document.querySelector(options.el)
-    this.$data = options.data
+    this.$data = options.data || {}
+    this.$methods = options.methods || {}
+    for(let key in this.$methods) {
+      this.$methods[key] = this.$methods[key].bind(this)
+    }
+    for(let key in this.$data) {
+      Object.defineProperty(this, key, {
+        enumerable: true,
+        configurable: true,
+        get: ()=> {
+          return this.$data[key]
+        },
+        set: newVal=> {
+          this.$data[key] = newVal
+        }        
+      })
+    }
   }
 }

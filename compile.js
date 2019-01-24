@@ -1,7 +1,7 @@
 let _this;
 function compile(mvvm) {
   _this = mvvm;
-  let { $el:node } = mvvm;
+  let { $el: node } = mvvm;
   traverse(node)
 }
 function traverse(node) {
@@ -38,10 +38,19 @@ function compileNode(node) {
       node.oninput = (e) => {
         _this.$data[key] = e.target.value
       }
+    }else if(isEventDirective(attr.name)){
+      bindEventHander(node, attr)
     }
   })
 }
-//判断属性名是否是指令
 function isDirective(attrName) {
   return attrName === 'v-model'
+}
+function bindEventHander(node, attr){
+  let eventType = attr.name.substr(5)
+  let methodName = attr.value
+  node.addEventListener(eventType, _this.$methods[methodName])
+}
+function isEventDirective(attrName){
+  return attrName.indexOf('v-on') === 0
 }
