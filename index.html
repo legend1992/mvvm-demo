@@ -8,52 +8,23 @@
 </head>
 <body>
   <div id="app">
-    <span>{{age}}</span>
+    <input type="text" v-model="age">
+    <h1><span>{{name}} is {{age}} years old</span></h1>
   </div>
   <script>
     let currentObserver = null
-    function observe(obj) {
-      if(!obj || typeof obj !== 'object') {
-        return
-      }
-      for (const key in obj) {
-        let subject = new Subject()
-        if (obj.hasOwnProperty(key)) {
-          let val = obj[key];
-          console.log(1)
-          Object.defineProperty(obj, key, {
-            enumerable: true,
-            configurable: true,
-            get() {
-              console.log(2, val)
-              console.log('get', currentObserver)
-              if(currentObserver){
-                currentObserver.subscribe(subject)
-              }
-              return val
-            },
-            set(newVal) {
-              console.log('set newVal', newVal)
-              val = newVal
-              subject.notify(newVal)
-            }
-          })
-          if(typeof val === 'object') {
-            observe(val)
-          }
-        }
-      }
-    }
   </script>
   <script src="./subject.js"></script>
   <script src="./observer.js"></script>
+  <script src="./observe.js"></script>
+  <script src="./compile.js"></script>
   <script src="./mvvm.js"></script>
   <script>
     let vm = new Mvvm({
       el: '#app',
       data: {
-        age: 24,
-        friends: ['lisi', 'zhangsan']
+        name: 'lisi',
+        age: 24
       }
     })
   </script>

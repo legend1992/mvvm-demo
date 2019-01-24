@@ -22,7 +22,6 @@ class Observer {
     currentObserver = this
     let value = this.vm.$data[this.key]
     currentObserver = null
-    console.log(value)
     return value
   }
 }
